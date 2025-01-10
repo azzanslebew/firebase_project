@@ -1,0 +1,50 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // Flutter Gradle Plugin
+    id "dev.flutter.flutter-gradle-plugin"
+    // Plugin Google Services (Firebase)
+    id "com.google.gms.google-services"
+}
+
+android {
+    namespace = "com.example.flutter_firebase_project"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.example.flutter_firebase_project"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    // Tambahkan dependensi Firebase yang diperlukan
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth:22.1.0'        // Firebase Authentication
+    implementation 'com.google.firebase:firebase-firestore:24.6.0'  // Firebase Firestore (CRUD)
+    implementation 'com.google.firebase:firebase-messaging:24.2.0'  // Firebase Cloud Messaging (Push Notifications)
+}

@@ -1,0 +1,25 @@
+name: flutter_firebase_project
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.5
+  firebase_core: ^1.10.0
+  firebase_auth: ^3.3.5
+  google_sign_in: ^5.2.4
+  cloud_firestore: ^3.1.5
+  firebase_messaging: ^10.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
