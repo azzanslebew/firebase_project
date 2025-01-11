@@ -27,12 +27,17 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
             signingConfig = signingConfigs.debug
         }
+    }
+
+    buildFeatures {
+        buildConfig true  
     }
 }
 
@@ -46,5 +51,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth:22.1.0'        // Firebase Authentication
     implementation 'com.google.firebase:firebase-firestore:24.6.0'  // Firebase Firestore (CRUD)
-    implementation 'com.google.firebase:firebase-messaging:24.2.0'  // Firebase Cloud Messaging (Push Notifications)
+    implementation 'com.google.firebase:firebase-messaging'  // Firebase Cloud Messaging (Push Notifications)
 }
