@@ -1,29 +1,57 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_project/routes/route.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/auth_service.dart';
 
 class AuthController extends GetxController {
-  final AuthService _authService = Get.put(AuthService());
-  final _auth = FirebaseAuth.instance;
-
+  final AuthService authService = Get.put(AuthService());
   final Rx<User?> user = Rx<User?>(null);
 
   @override
   void onInit() {
     super.onInit();
-    user.bindStream(_auth.authStateChanges());
+    user.bindStream(FirebaseAuth.instance.authStateChanges());
   }
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _authService.signInWithEmailAndPassword(email, password);
+    final userCredential = await authService.signInWithEmailAndPassword(
+      email,
+      password,
+    );
+
+    if (userCredential != null) {
+      // Save login state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+
+      // Navigate to main page
+      Get.offAllNamed(MyAppRoute.main);
+    }
   }
 
   Future<void> signInWithGoogle() async {
-    await _authService.signInWithGoogle();
+    final userCredential = await authService.signInWithGoogle();
+
+    if (userCredential != null) {
+      // Save login state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+
+      // Navigate to main page
+      Get.offAllNamed(MyAppRoute.main);
+    }
   }
 
   Future<void> signOut() async {
-    await _authService.signOut();
+    await authService.signOut();
+
+    // Clear login state
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
+
+    // Navigate to login page
+    Get.offAllNamed(MyAppRoute.login);
   }
 }
