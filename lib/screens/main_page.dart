@@ -15,7 +15,7 @@ class MainPage extends StatelessWidget {
     List<Widget> pages = [
       const HomePage(),
       const AddStudentPage(),
-      const ProfilePage(),
+      ProfilePage(),
     ];
 
     return Scaffold(
