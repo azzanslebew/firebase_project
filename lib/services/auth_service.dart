@@ -14,14 +14,6 @@ class AuthService extends GetxService {
       final userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      Get.snackbar(
-        'Sign-In Successful',
-        'Welcome ${userCredential.user?.email ?? "User"}!',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-        colorText: Get.theme.snackBarTheme.actionTextColor,
-      );
-
       return userCredential;
     } catch (e) {
       print(e);
@@ -58,14 +50,6 @@ class AuthService extends GetxService {
       );
 
       final userCredential = await _auth.signInWithCredential(credential);
-
-      Get.snackbar(
-        'Sign-In Successful',
-        'Welcome ${userCredential.user?.displayName ?? "User"}!',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-        colorText: Get.theme.snackBarTheme.actionTextColor,
-      );
 
       return userCredential;
     } catch (e) {

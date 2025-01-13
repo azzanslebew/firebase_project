@@ -9,16 +9,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthController authController = Get.find();
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
+      appBar: AppBar(title: const Text('Profile')),
       body: Obx(() {
         final user = authController.user.value;
         
         if (user == null) {
-          return Center(child: Text('Not logged in'));
+          return const Center(child: Text('Not logged in'));
         }
 
         return Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -28,33 +28,33 @@ class ProfilePage extends StatelessWidget {
                     ? NetworkImage(user.photoURL!)
                     : null,
                 child: user.photoURL == null
-                    ? Icon(Icons.person, size: 50)
+                    ? const Icon(Icons.person, size: 50)
                     : null,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 user.displayName ?? 'No Name',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 user.email ?? 'No Email',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               ElevatedButton.icon(
-                icon: Icon(Icons.logout),
-                label: Text('Logout'),
+                icon: const Icon(Icons.logout),
+                label: const Text('Logout'),
                 onPressed: () => authController.signOut(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
               ),
             ],
