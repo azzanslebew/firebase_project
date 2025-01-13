@@ -16,6 +16,7 @@ dependencies:
   cloud_firestore: ^5.6.1
   firebase_messaging: ^15.2.0
   shared_preferences: ^2.3.5
+  awesome_notifications: ^0.10.0
 
 dev_dependencies:
   flutter_test:
