@@ -49,7 +49,7 @@ dependencies {
     // Tambahkan dependensi Firebase yang diperlukan
     implementation platform('com.google.firebase:firebase-bom:33.7.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth:22.1.0'        // Firebase Authentication
-    implementation 'com.google.firebase:firebase-firestore:24.6.0'  // Firebase Firestore (CRUD)
-    implementation 'com.google.firebase:firebase-messaging'  // Firebase Cloud Messaging (Push Notifications)
+    implementation 'com.google.firebase:firebase-auth'        
+    implementation 'com.google.firebase:firebase-firestore'  
+    implementation 'com.google.firebase:firebase-messaging'  
 }
