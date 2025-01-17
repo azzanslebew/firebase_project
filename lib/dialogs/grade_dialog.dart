@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../models/grade.dart';
 import '../controllers/grade_controller.dart';
-import '../models/grade.dart';
 
 class GradeDialog {
+
   // Menampilkan dialog untuk menambahkan grade
   static void showAddDialog(BuildContext context, GradeController controller) {
     final TextEditingController nameController = TextEditingController();
@@ -23,6 +23,39 @@ class GradeDialog {
 
         controller.addGrade(Grade(name: gradeName));
         Get.back();
+        Get.snackbar('Success', 'Grade added successfully',
+            duration: const Duration(seconds: 2));
+      },
+    );
+  }
+
+  // Menampilkan dialog untuk mengedit grade
+  static void showEditDialog(
+      BuildContext context, GradeController controller, Grade grade) {
+    final TextEditingController nameController =
+        TextEditingController(text: grade.name);
+
+    _showDialog(
+      context: context,
+      title: 'Edit Grade',
+      controller: nameController,
+      onConfirm: () {
+        final gradeName = nameController.text.trim();
+
+        if (gradeName.isEmpty) {
+          Get.snackbar('Error', 'Please enter a valid grade name');
+          return;
+        }
+
+        controller.updateGrade(
+          Grade(
+            id: grade.id,
+            name: gradeName,
+          ),
+        );
+        Get.back();
+        Get.snackbar('Success', 'Grade updated successfully',
+            duration: const Duration(seconds: 2));
       },
     );
   }
