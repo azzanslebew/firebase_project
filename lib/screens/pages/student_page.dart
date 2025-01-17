@@ -13,6 +13,7 @@ class StudentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Students'),
+        scrolledUnderElevation: 0,
       ),
       body: Obx(() {
         if (controller.isLoadingStudents.value) {
@@ -41,6 +42,24 @@ class StudentPage extends StatelessWidget {
                   'Grade: ${student.grade} | Age: ${student.age}',
                   style: const TextStyle(color: Colors.black54),
                 ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () => StudentDialog.showEditDialog(
+                        context,
+                        controller,
+                        student,
+                      ),
+                    ), 
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () =>
+                          _showDeleteConfirmation(context, student),
+                    ), 
+                  ],
+                ),
               ),
             );
           },
@@ -50,6 +69,32 @@ class StudentPage extends StatelessWidget {
         onPressed: () => StudentDialog.showAddDialog(context, controller),
         child: const Icon(Icons.add),
       ), 
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, dynamic student) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Student'),
+        content: Text(
+          'Are you sure you want to delete student "${student.name}"?',
+          style: const TextStyle(fontSize: 16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              controller.deleteStudent(student.id!);
+              Get.back();
+            },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
     );
   }
 }

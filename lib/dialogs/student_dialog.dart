@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../models/student.dart';
 import '../controllers/student_controller.dart';
-import '../models/student.dart';
 
 class StudentDialog {
+
   // Menampilkan dialog untuk menambahkan student
   static void showAddDialog(
       BuildContext context, StudentController controller) {
@@ -45,6 +45,46 @@ class StudentDialog {
         }
 
         controller.addStudent(Student(
+          name: name,
+          age: int.parse(ageText),
+          grade: grade,
+        ));
+        Get.back();
+      },
+    );
+  }
+
+  // Menampilkan dialog untuk mengedit student
+  static void showEditDialog(
+      BuildContext context, StudentController controller, Student student) {
+    final nameController = TextEditingController(text: student.name);
+    final ageController = TextEditingController(text: student.age.toString());
+    final RxString selectedGrade = student.grade.obs;
+
+    _showDialog(
+      context: context,
+      title: 'Edit Student',
+      nameController: nameController,
+      ageController: ageController,
+      selectedGrade: selectedGrade,
+      grades: controller.grades.map((grade) => grade.name).toList(),
+      onConfirm: () {
+        final name = nameController.text.trim();
+        final ageText = ageController.text.trim();
+        final grade = selectedGrade.value;
+
+        if (name.isEmpty || ageText.isEmpty || grade.isEmpty) {
+          Get.snackbar('Error', 'Please fill all fields');
+          return;
+        }
+
+        if (int.tryParse(ageText) == null) {
+          Get.snackbar('Error', 'Age must be a valid number');
+          return;
+        }
+
+        controller.updateStudent(Student(
+          id: student.id,
           name: name,
           age: int.parse(ageText),
           grade: grade,

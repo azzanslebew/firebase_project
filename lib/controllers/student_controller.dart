@@ -74,4 +74,42 @@ class StudentController extends GetxController{
       isLoadingStudents.value = false;
     }
   }
+
+  // Memperbarui data student
+  Future<void> updateStudent(Student student) async {
+    if (student.id == null || student.name.isEmpty || student.age <= 0) {
+      Get.snackbar('Error', 'Invalid student data');
+      return;
+    }
+
+    try {
+      isLoadingStudents.value = true;
+      await _db.collection('students').doc(student.id).update(student.toJson());
+      Get.snackbar('Success', 'Student updated successfully',
+          duration: const Duration(seconds: 2));
+    } catch (error) {
+      Get.snackbar('Error', 'Failed to update student: ${error.toString()}');
+    } finally {
+      isLoadingStudents.value = false;
+    }
+  }
+
+  // Menghapus data student
+  Future<void> deleteStudent(String id) async {
+    if (id.isEmpty) {
+      Get.snackbar('Error', 'Invalid student ID');
+      return;
+    }
+
+    try {
+      isLoadingStudents.value = true;
+      await _db.collection('students').doc(id).delete();
+      Get.snackbar('Success', 'Student deleted successfully',
+          duration: const Duration(seconds: 2));
+    } catch (error) {
+      Get.snackbar('Error', 'Failed to delete student: ${error.toString()}');
+    } finally {
+      isLoadingStudents.value = false;
+    }
+  }
 }

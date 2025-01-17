@@ -52,4 +52,38 @@ class GradeController extends GetxController {
       isLoading.value = false; // Reset loading setelah proses selesai
     }
   }
+
+  // Mengupdate grade di Firestore
+  Future<void> updateGrade(Grade grade) async {
+    if (grade.id == null) {
+      Get.snackbar('Error', 'Grade ID is required for updating');
+      return;
+    }
+
+    try {
+      isLoading.value = true; // Set loading saat proses
+      await _db.collection('grades').doc(grade.id).update(grade.toJson());
+    } catch (error) {
+      Get.snackbar('Error', 'Failed to update grade: ${error.toString()}');
+    } finally {
+      isLoading.value = false; // Reset loading setelah proses selesai
+    }
+  }
+
+  // Menghapus grade dari Firestore
+  Future<void> deleteGrade(String id) async {
+    try {
+      isLoading.value = true; // Set loading saat proses
+      await _db.collection('grades').doc(id).delete();
+    } catch (error) {
+      Get.snackbar('Error', 'Failed to delete grade: ${error.toString()}');
+    } finally {
+      isLoading.value = false; // Reset loading setelah proses selesai
+    }
+  }
+
+  // Mengatur grade yang dipilih
+  void setSelectedGrade(Grade grade) {
+    selectedGrade.value = grade;
+  }
 }
