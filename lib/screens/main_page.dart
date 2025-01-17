@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/bottom_nav_controller.dart';
-import 'pages/add_student_page.dart';
-import 'pages/home_page.dart';
+import 'pages/grade_page.dart';
+import 'pages/student_page.dart';
 import 'pages/profile_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -13,8 +13,8 @@ class MainPage extends StatelessWidget {
     BottomNavController bottomNavController = Get.find();
 
     List<Widget> pages = [
-      const HomePage(),
-      const AddStudentPage(),
+      StudentPage(),
+      GradePage(),
       const ProfilePage(),
     ];
 
@@ -31,12 +31,12 @@ class MainPage extends StatelessWidget {
           onTap: bottomNavController.changePage,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: Icon(Icons.people),
+              label: 'Student',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'Add Student',
+              icon: Icon(Icons.school),
+              label: 'Grade',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
