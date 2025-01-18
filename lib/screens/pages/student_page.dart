@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_project/widgets/reusable_card.dart';
 import 'package:get/get.dart';
 import '../../controllers/student_controller.dart';
-import '../../dialogs/student_dialog.dart';
+import '../../models/student.dart';
+import '../../dialogs/student_dialog.dart';  // Import dialog yang telah kamu buat
 
 class StudentPage extends StatelessWidget {
   final StudentController controller = Get.put(StudentController());
@@ -12,8 +14,9 @@ class StudentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Students'),
+        title: const Text('Students', style: TextStyle(fontWeight: FontWeight.bold)),
         scrolledUnderElevation: 0,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Obx(() {
         if (controller.isLoadingStudents.value) {
@@ -27,48 +30,32 @@ class StudentPage extends StatelessWidget {
             ),
           );
         }
-        return ListView.builder(
+        return GridView.builder(
+          padding: const EdgeInsets.all(8.0), // Padding for the grid
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // 2 items per row
+            crossAxisSpacing: 10, // Space between columns
+            mainAxisSpacing: 10, // Space between rows
+            childAspectRatio: 1, // Aspect ratio for each item
+          ),
           itemCount: controller.students.length,
           itemBuilder: (context, index) {
             final student = controller.students[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              child: ListTile(
-                title: Text(
-                  student.name,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  'Grade: ${student.grade} | Age: ${student.age}',
-                  style: const TextStyle(color: Colors.black54),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => StudentDialog.showEditDialog(
-                        context,
-                        controller,
-                        student,
-                      ),
-                    ), 
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () =>
-                          _showDeleteConfirmation(context, student),
-                    ), 
-                  ],
-                ),
+            return ReusableCard(
+              student: student,
+              onEdit: () => StudentDialog.showEditDialog(
+                context, controller, student, // Memanggil dialog edit
               ),
+              onDelete: () => _showDeleteConfirmation(context, student),
             );
           },
         );
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => StudentDialog.showAddDialog(context, controller),
+        onPressed: () => StudentDialog.showAddDialog(context, controller), // Memanggil dialog add
         child: const Icon(Icons.add),
-      ), 
+        backgroundColor: Colors.blueAccent,
+      ),
     );
   }
 
@@ -76,7 +63,7 @@ class StudentPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Student'),
+        title: const Text('Delete Student', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Text(
           'Are you sure you want to delete student "${student.name}"?',
           style: const TextStyle(fontSize: 16),
