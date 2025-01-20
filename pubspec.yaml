@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.3.5
   awesome_notifications: ^0.10.0
   google_sign_in: ^6.2.2
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
