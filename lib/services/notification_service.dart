@@ -22,7 +22,7 @@ class NotificationService {
 
   Future<void> initLocalNotifications() async {
     await AwesomeNotifications().initialize(
-      null, // icon untuk notifikasi
+      null,
       [
         NotificationChannel(
           channelKey: 'basic_channel',

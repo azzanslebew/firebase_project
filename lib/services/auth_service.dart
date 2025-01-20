@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,8 +14,7 @@ class AuthService extends GetxService {
           email: email, password: password);
       return userCredential;
     } catch (e) {
-      debugPrint('Sign-In Error: $e');
-      _showErrorSnackbar('Sign-In Failed', e.toString());
+      _showErrorSnackbar('Sign-In Error', e.toString());
       return null;
     }
   }
@@ -26,10 +23,8 @@ class AuthService extends GetxService {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        _showErrorSnackbar(
-          'Sign-In Cancelled',
-          'You did not complete the sign-in process.',
-        );
+        _showErrorSnackbar('Sign-In Cancelled',
+            'Sign-in process was not completed by the user.');
         return null;
       }
 
@@ -38,23 +33,21 @@ class AuthService extends GetxService {
 
       if (googleAuth.accessToken == null || googleAuth.idToken == null) {
         _showErrorSnackbar(
-          'Sign-In Failed',
-          'Failed to retrieve credentials. Please try again.',
-        );
+            'Sign-In Failed', 'Google credentials could not be retrieved.');
         return null;
       }
 
-      final credential = GoogleAuthProvider.credential(
+      // Create a credential for Firebase Authentication
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
+      // Sign in with the credential and return the userCredential
       final userCredential = await _auth.signInWithCredential(credential);
-
       return userCredential;
     } catch (e) {
-      debugPrint('Google Sign-In Error: $e');
-      _showErrorSnackbar('Sign-In Failed', e.toString());
+      _showErrorSnackbar('Google Sign-In Error', e.toString());
       return null;
     }
   }
@@ -62,10 +55,11 @@ class AuthService extends GetxService {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
-      await _googleSignIn.signOut();
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
     } catch (e) {
-      debugPrint('Sign-Out Error: $e');
-      _showErrorSnackbar('Sign-Out Failed', e.toString());
+      _showErrorSnackbar('Sign-Out Error', e.toString());
     }
   }
 

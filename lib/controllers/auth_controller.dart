@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_firebase_project/routes/route.dart';
 import 'package:flutter_firebase_project/services/notification_service.dart';
 import 'package:get/get.dart';
@@ -75,13 +76,12 @@ class AuthController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
 
+    // Show notification
     await notification.showNotification(
       title: 'Login Successful',
       body:
           'Welcome ${userCredential.user?.displayName ?? userCredential.user?.email}!',
     );
-
-    await Future.delayed(const Duration(seconds: 2));
 
     // Navigate to main page
     Get.offAllNamed(MyAppRoute.main);
@@ -96,8 +96,8 @@ class AuthController extends GetxController {
       title,
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-      colorText: Get.theme.snackBarTheme.actionTextColor,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
     );
   }
 }

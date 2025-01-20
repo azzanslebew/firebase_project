@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_project/controllers/auth_controller.dart';
-import 'package:get/get.dart';
+import 'package:flutter_firebase_project/widgets/reusable_app_bar.dart';
+import 'package:flutter_firebase_project/widgets/reusable_button.dart';
 import 'package:flutter_firebase_project/widgets/reusable_list_item.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -11,68 +14,77 @@ class ProfilePage extends StatelessWidget {
     final AuthController authController = Get.find();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.bold)),
-        scrolledUnderElevation: 0,
+      backgroundColor: const Color(0xffF5F5F5),
+      appBar: const ReusableAppBar(
+        title: 'Profile',
+        fontSize: 24,
+        titleColor: Colors.white,
         backgroundColor: Colors.blueAccent,
       ),
-      body: Obx(() {
-        final user = authController.user.value;
-
-        if (user == null) {
-          return const Center(child: Text('Not logged in'));
-        }
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: user.photoURL != null
-                          ? NetworkImage(user.photoURL!)
-                          : null,
-                      child: user.photoURL == null
-                          ? const Icon(Icons.person, size: 50)
-                          : null,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      user.displayName ?? 'No Name',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      user.email ?? 'No Email',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-
-              // Feature List
-              const Text(
-                'Features',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               const SizedBox(height: 16),
+              Obx(() {
+                final user = authController.user.value;
 
+                if (user == null) {
+                  return const Center(child: Text('Not logged in'));
+                }
+
+                return Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.blueAccent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade200,
+                        blurRadius: 10,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage: user.photoURL != null
+                            ? NetworkImage(user.photoURL!)
+                            : null,
+                        child: user.photoURL == null
+                            ? const Icon(Icons.person,
+                                size: 50, color: Colors.white)
+                            : null,
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.displayName ?? 'No Name',
+                            style: GoogleFonts.manrope(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            user.email ?? 'No Email',
+                            style: GoogleFonts.manrope(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(height: 16),
               // Personal Information
               ReusableListItem(
                 icon: Icons.person,
@@ -118,72 +130,62 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
 
-              // Log Out button
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.red, // Red background
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.white), // White icon
-                  title: const Text(
-                    'Log Out',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white, // White text
-                    ),
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios,
-                      size: 16, color: Colors.white), // White arrow
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Confirm Log Out'),
-                        content: const Text('Are you sure you want to log out?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red, // Red background
-                            ),
-                            onPressed: () {
-                              authController.signOut();
-                              Get.snackbar(
-                                'Logout',
-                                'You have successfully logged out.',
-                                snackPosition: SnackPosition.BOTTOM,
-                              );
-                              Navigator.pop(context); // Close the dialog
-                            },
-                            child: const Text(
-                              'Log Out',
-                              style: TextStyle(
-                                color: Colors.white, // White text
-                              ),
-                            ),
-                          ),
-                        ],
+              const SizedBox(height: 20),
+              // Log Out Button
+              ReusableButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        'Confirm Logout',
+                        style: GoogleFonts
+                            .manrope(), // Apply Manrope font to title
                       ),
-                    );
-                  },
-                ),
+                      content: Text(
+                        'Are you sure want to logout?',
+                        style: GoogleFonts
+                            .manrope(), // Apply Manrope font to content
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Get.back(),
+                          child: Text(
+                            'Cancel',
+                            style: GoogleFonts.manrope(
+                                color: Colors
+                                    .blueAccent), // Apply Manrope font to Cancel text
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // Red background
+                          ),
+                          onPressed: () {
+                            authController.signOut();
+                            Get.back(); // Close the dialog
+                          },
+                          child: Text(
+                            'Logout',
+                            style: GoogleFonts.manrope(
+                              color:
+                                  Colors.white, // White text with Manrope font
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                category: 'Logout',
+                backgroundColor: Colors.red,
+                showBorder: false,
+                textColor: Colors.white,
               ),
             ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }
