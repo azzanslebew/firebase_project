@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/grade.dart';
 import '../controllers/grade_controller.dart';
 
 class GradeDialog {
-  // Menampilkan dialog untuk menambahkan grade
   static void showAddDialog(BuildContext context, GradeController controller) {
     final TextEditingController nameController = TextEditingController();
-    final RxString errorText = ''.obs; // Validasi real-time
+    final RxString errorText = ''.obs;
 
     _showDialog(
       context: context,
@@ -28,12 +28,11 @@ class GradeDialog {
     );
   }
 
-  // Menampilkan dialog untuk mengedit grade
   static void showEditDialog(
       BuildContext context, GradeController controller, Grade grade) {
     final TextEditingController nameController =
         TextEditingController(text: grade.name);
-    final RxString errorText = ''.obs; // Validasi real-time
+    final RxString errorText = ''.obs;
 
     _showDialog(
       context: context,
@@ -59,7 +58,6 @@ class GradeDialog {
     );
   }
 
-  // Fungsi privat untuk menampilkan dialog umum (digunakan untuk Add dan Edit)
   static void _showDialog({
     required BuildContext context,
     required String title,
@@ -70,25 +68,25 @@ class GradeDialog {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(title),
+        title: Text(
+          title,
+          style: GoogleFonts.manrope(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title == 'Add Grade'
-                  ? 'Enter a new grade name below:'
-                  : 'Update the grade name below:',
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
-            ),
             const SizedBox(height: 10),
             Obx(
               () => TextField(
                 controller: controller,
                 autofocus: true,
+                style: GoogleFonts.manrope(),
                 decoration: InputDecoration(
                   labelText: 'Grade Name',
-                  errorText: errorText.value.isNotEmpty ? errorText.value : null,
+                  labelStyle: GoogleFonts.manrope(),
+                  errorText:
+                      errorText.value.isNotEmpty ? errorText.value : null,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -109,11 +107,25 @@ class GradeDialog {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.manrope(color: Colors.red),
+            ),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: onConfirm,
-            child: Text(title == 'Add Grade' ? 'Add' : 'Save Changes'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blueAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            ),
+            child: Text(
+              title == 'Add Grade' ? 'Add' : 'Save Changes',
+              style: GoogleFonts.manrope(fontSize: 16),
+            ),
           ),
         ],
       ),

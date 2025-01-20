@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ReusableCard extends StatelessWidget {
   final dynamic student;
@@ -15,42 +16,84 @@ class ReusableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5, // Card shadow
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               student.name,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              'Grade: ${student.grade}',
-              style: const TextStyle(color: Colors.black54),
-            ),
-            Text(
-              'Age: ${student.age}',
-              style: const TextStyle(color: Colors.black54),
-            ),
-            const Spacer(), // To push the edit button to the bottom
-            Align(
-              alignment: Alignment.topRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.blue),
-                    onPressed: onEdit,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: onDelete,
-                  ),
-                ],
+              style: GoogleFonts.manrope(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                color: Colors.black87,
               ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Icon(Icons.school, size: 20, color: Colors.grey),
+                const SizedBox(width: 8),
+                Text(
+                  'Grade: ${student.grade}',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.cake, size: 20, color: Colors.grey),
+                const SizedBox(width: 8),
+                Text(
+                  'Age: ${student.age}',
+                  style: GoogleFonts.manrope(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 35),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: onEdit,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                      vertical: 10,
+                    ),
+                  ),
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  label: Text(
+                    'Edit',
+                    style: GoogleFonts.manrope(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red, size: 24),
+                  onPressed: onDelete,
+                  tooltip: 'Delete',
+                ),
+              ],
             ),
           ],
         ),

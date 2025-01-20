@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/student.dart';
 import '../controllers/student_controller.dart';
 
 class StudentDialog {
-  // Menampilkan dialog untuk menambahkan student
   static void showAddDialog(
       BuildContext context, StudentController controller) {
     final nameController = TextEditingController();
     final ageController = TextEditingController();
     final RxString selectedGrade = ''.obs;
 
-    // Cek apakah grades tersedia
     if (controller.grades.isEmpty) {
       Get.snackbar('Error', 'No grades available',
           duration: const Duration(seconds: 2));
       return;
     }
 
-    // Set nilai default untuk grade
     selectedGrade.value = controller.grades.first.name;
 
     _showDialog(
@@ -28,7 +26,7 @@ class StudentDialog {
       ageController: ageController,
       selectedGrade: selectedGrade,
       grades: controller.grades.map((grade) => grade.name).toList(),
-      isEdit: false,  // Menandakan bahwa ini adalah dialog "Add"
+      isEdit: false,
       onConfirm: () {
         final name = nameController.text.trim();
         final ageText = ageController.text.trim();
@@ -54,7 +52,6 @@ class StudentDialog {
     );
   }
 
-  // Menampilkan dialog untuk mengedit student
   static void showEditDialog(
       BuildContext context, StudentController controller, Student student) {
     final nameController = TextEditingController(text: student.name);
@@ -68,7 +65,7 @@ class StudentDialog {
       ageController: ageController,
       selectedGrade: selectedGrade,
       grades: controller.grades.map((grade) => grade.name).toList(),
-      isEdit: true,  // Menandakan bahwa ini adalah dialog "Edit"
+      isEdit: true,
       onConfirm: () {
         final name = nameController.text.trim();
         final ageText = ageController.text.trim();
@@ -95,7 +92,6 @@ class StudentDialog {
     );
   }
 
-  // Fungsi privat untuk menampilkan dialog umum
   static void _showDialog({
     required BuildContext context,
     required String title,
@@ -103,7 +99,7 @@ class StudentDialog {
     required TextEditingController ageController,
     required RxString selectedGrade,
     required List<String> grades,
-    required bool isEdit,  // Menambahkan parameter isEdit untuk menentukan apakah dialog ini untuk edit atau add
+    required bool isEdit,
     required VoidCallback onConfirm,
   }) {
     showDialog(
@@ -111,53 +107,70 @@ class StudentDialog {
       builder: (context) => AlertDialog(
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: GoogleFonts.manrope(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Nama Mahasiswa
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
+                  cursorColor: Colors.black,
                   controller: nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Name',
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    labelStyle: GoogleFonts.manrope(),
+                    border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blueAccent),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   ),
+                  style: GoogleFonts.manrope(),
                   autofocus: true,
                 ),
               ),
-              // Age Input Field untuk Add Student
               if (!isEdit) ...[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: TextField(
                     controller: ageController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Age',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                      labelStyle: GoogleFonts.manrope(),
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueAccent),
+                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                     ),
+                    style: GoogleFonts.manrope(),
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                // Grade Dropdown untuk Add Student
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Obx(() {
                     return DropdownButtonFormField<String>(
                       value: selectedGrade.value,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Grade',
-                        border: OutlineInputBorder(),
+                        labelStyle: GoogleFonts.manrope(),
+                        border: const OutlineInputBorder(),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueAccent),
+                        ),
                       ),
                       items: grades
                           .map((grade) => DropdownMenuItem<String>(
                                 value: grade,
-                                child: Text(grade),
+                                child: Text(
+                                  grade,
+                                  style: GoogleFonts.manrope(
+                                      fontSize: 16, color: Colors.black),
+                                ),
                               ))
                           .toList(),
                       onChanged: (value) {
@@ -165,48 +178,57 @@ class StudentDialog {
                           selectedGrade.value = value;
                         }
                       },
+                      style: GoogleFonts.manrope(fontSize: 16),
                     );
                   }),
                 ),
               ],
-              // Row untuk Edit Student: gabungkan Age dan Grade dalam satu baris
               if (isEdit) ...[
-                Row(
-                  children: [
-                    // Age Input Field
-                    Expanded(
-                      flex: 1,  // Atur agar input Age mengambil lebih sedikit ruang
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
                         child: TextField(
                           controller: ageController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Age',
-                            border: OutlineInputBorder(),
+                            labelStyle: GoogleFonts.manrope(),
+                            border: const OutlineInputBorder(),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blueAccent),
+                            ),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                           ),
+                          style: GoogleFonts.manrope(),
                           keyboardType: TextInputType.number,
                         ),
                       ),
-                    ),
-                    // Grade Dropdown
-                    Expanded(
-                      flex: 2,  // Atur agar dropdown Grade mengambil lebih banyak ruang
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        flex: 2,
                         child: Obx(() {
                           return DropdownButtonFormField<String>(
                             value: selectedGrade.value,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Grade',
-                              border: OutlineInputBorder(),
+                              labelStyle: GoogleFonts.manrope(),
+                              border: const OutlineInputBorder(),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blueAccent),
+                              ),
                             ),
                             items: grades
                                 .map((grade) => DropdownMenuItem<String>(
                                       value: grade,
-                                      child: Text(grade),
+                                      child: Text(
+                                        grade,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 16, color: Colors.black),
+                                      ),
                                     ))
                                 .toList(),
                             onChanged: (value) {
@@ -214,11 +236,12 @@ class StudentDialog {
                                 selectedGrade.value = value;
                               }
                             },
+                            style: GoogleFonts.manrope(fontSize: 16),
                           );
                         }),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ]
             ],
@@ -227,24 +250,24 @@ class StudentDialog {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: const Text(
+            child: Text(
               'Cancel',
-              style: TextStyle(color: Colors.grey),
+              style: GoogleFonts.manrope(color: Colors.red),
             ),
           ),
           ElevatedButton(
             onPressed: onConfirm,
-            child: Text(
-              title == 'Add Student' ? 'Add' : 'Save Changes',
-              style: const TextStyle(fontSize: 16),
-            ),
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
-              backgroundColor: isEdit ? Colors.green : Colors.blueAccent,  // Ubah warna tombol berdasarkan jenis dialog
+              backgroundColor: Colors.blueAccent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            ),
+            child: Text(
+              title == 'Add Student' ? 'Add' : 'Save Changes',
+              style: GoogleFonts.manrope(fontSize: 16),
             ),
           ),
         ],

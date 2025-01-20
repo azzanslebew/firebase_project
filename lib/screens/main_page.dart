@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../controllers/bottom_nav_controller.dart';
 import 'pages/grade_page.dart';
 import 'pages/student_page.dart';
@@ -31,20 +32,26 @@ class MainPage extends StatelessWidget {
           onTap: bottomNavController.changePage,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.people),
+              activeIcon: Icon(Icons.people),
+              icon: Icon(Icons.people_outline),
               label: 'Student',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
+              activeIcon: Icon(Icons.school),
+              icon: Icon(Icons.school_outlined),
               label: 'Grade',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              activeIcon: Icon(Icons.person),
+              icon: Icon(Icons.person_outline),
               label: 'Profile',
             ),
           ],
-          selectedItemColor: Colors.blue,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blueAccent,
           unselectedItemColor: Colors.grey,
+          selectedLabelStyle: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+          unselectedLabelStyle: GoogleFonts.manrope(),
           type: BottomNavigationBarType.fixed,
         ),
       ),
