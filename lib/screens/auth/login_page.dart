@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_project/widgets/reusable_app_bar.dart';
@@ -9,14 +11,14 @@ import '../../controllers/auth_controller.dart';
 import '../../widgets/reusable_button.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final AuthController authController = Get.find();
+
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
       appBar: const ReusableAppBar(
@@ -59,12 +61,17 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 16),
               ReusableButton(
                 category: 'Log In',
-                onPressed: () {
+                onPressed: () async {
                   String email = emailController.text.trim();
                   String password = passwordController.text.trim();
 
                   if (email.isNotEmpty && password.isNotEmpty) {
-                    authController.signInWithEmailAndPassword(email, password);
+                    try {
+                      await authController.signInWithEmailAndPassword(
+                          email, password);
+                    } catch (e) {
+                      print("Login error: $e"); // Untuk debugging
+                    }
                   } else {
                     Get.snackbar(
                       'Error',
@@ -94,8 +101,12 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ReusableButton(
-                onPressed: () {
-                  authController.signInWithGoogle();
+                onPressed: () async {
+                  try {
+                    await authController.signInWithGoogle();
+                  } catch (e) {
+                    print("Google sign in error: $e"); // Untuk debugging
+                  }
                 },
                 category: 'Log In with Google',
                 backgroundColor: const Color(0xffF5F5F5),

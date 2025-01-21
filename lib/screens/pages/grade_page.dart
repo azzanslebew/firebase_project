@@ -7,7 +7,7 @@ import '../../dialogs/grade_dialog.dart';
 import '../../models/grade.dart';
 
 class GradePage extends StatelessWidget {
-  final GradeController controller = Get.put(GradeController());
+  final GradeController controller = Get.find();
 
   GradePage({super.key});
 
