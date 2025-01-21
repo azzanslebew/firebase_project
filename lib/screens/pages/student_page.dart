@@ -39,7 +39,7 @@ class StudentPage extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            childAspectRatio: 1,
+            childAspectRatio: 0.75,
           ),
           itemCount: controller.students.length,
           itemBuilder: (context, index) {
