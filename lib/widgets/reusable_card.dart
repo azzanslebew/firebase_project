@@ -22,7 +22,7 @@ class ReusableCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,7 +40,7 @@ class ReusableCard extends StatelessWidget {
                 const Icon(Icons.school, size: 20, color: Colors.grey),
                 const SizedBox(width: 8),
                 Text(
-                  'Grade: ${student.grade}',
+                  'Grade: \n${student.grade}',
                   style: GoogleFonts.manrope(
                     fontSize: 14,
                     color: Colors.black54,
@@ -74,7 +74,7 @@ class ReusableCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 35,
+                      horizontal: 18,
                       vertical: 10,
                     ),
                   ),
