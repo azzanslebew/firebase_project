@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 
 class AuthController extends GetxController {
-  final AuthService authService = Get.put(AuthService());
-  final NotificationService notification = Get.put(NotificationService());
+  AuthService authService = Get.find();
+  NotificationService notification = Get.put(NotificationService());
 
   final Rx<User?> user = Rx<User?>(null);
   final isLoading = false.obs;

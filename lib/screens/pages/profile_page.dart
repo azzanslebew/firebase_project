@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find();
+    AuthController authController = Get.find();
 
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),

@@ -79,6 +79,7 @@ class GradeDialog {
             const SizedBox(height: 10),
             Obx(
               () => TextField(
+                cursorColor: Colors.black,
                 controller: controller,
                 autofocus: true,
                 style: GoogleFonts.manrope(),
@@ -87,8 +88,8 @@ class GradeDialog {
                   labelStyle: GoogleFonts.manrope(),
                   errorText:
                       errorText.value.isNotEmpty ? errorText.value : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueAccent),
                   ),
                   hintText: 'Enter grade name...',
                 ),

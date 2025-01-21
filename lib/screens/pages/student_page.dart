@@ -7,7 +7,7 @@ import '../../controllers/student_controller.dart';
 import '../../dialogs/student_dialog.dart';
 
 class StudentPage extends StatelessWidget {
-  final StudentController controller = Get.put(StudentController());
+  final StudentController controller = Get.find();
 
   StudentPage({super.key});
 
